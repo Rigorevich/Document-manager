@@ -98,7 +98,7 @@ namespace DocumentManagerWebAPI.Data
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        public DbSet<DocumentManagerWebAPI.Models.Account> Account { get; set; } = default!;
+        public DbSet<DocumentManagerWebAPI.Models.Account>? Account { get; set; }
 
         public DbSet<DocumentManagerWebAPI.Models.Administrator>? Administrator { get; set; }
 
