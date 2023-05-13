@@ -77,6 +77,26 @@ namespace DocumentManagerWebAPI.Data
             });
         }
 
+        
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            var entries = this.ChangeTracker.Entries();
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Added && entry.Entity is ICreatedAt createdAt)
+                {
+                    createdAt.CreatedAt = DateTime.Now;
+                }
+                
+                if (entry.State == EntityState.Modified && entry.Entity is IUpdatedAt updatedAt)
+                {
+                    updatedAt.UpdatedAt = DateTime.Now;
+                }
+                
+            }
+            
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
         public DbSet<DocumentManagerWebAPI.Models.Account> Account { get; set; } = default!;
 
