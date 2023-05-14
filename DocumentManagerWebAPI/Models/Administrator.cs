@@ -4,7 +4,7 @@ namespace DocumentManagerWebAPI.Models;
 
 public class Administrator
 {
-    public int Id { get; set; }
+    public int AdministratorId { get; set; }
 
     [Required]
     [MaxLength(256)]

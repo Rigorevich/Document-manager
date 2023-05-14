@@ -4,7 +4,7 @@ namespace DocumentManagerWebAPI.Models;
 
 public class Application : ICreatedAt
 {
-    public int Id { get; set; }
+    public int ApplicationId { get; set; }
     
     public string? Comment { get; set; }
 
