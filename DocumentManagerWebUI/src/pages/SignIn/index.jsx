@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Container,
   Grid,
@@ -8,8 +8,19 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { checkingAuth } from "../../utils/checkingAuth";
 
 const SignIn = () => {
+
+  const [login, setLogin] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handleClick = () => {
+    if (login.trim() && password.trim()) {
+      const accountData = checkingAuth({login, password});
+    }
+  }
+
   return (
     <>
       <Box
@@ -56,6 +67,8 @@ const SignIn = () => {
                   label="Логин"
                   variant="outlined"
                   fullWidth
+                  value={login}
+                  onChange={(e) => setLogin(e.target.value)}
                 />
               </Box>
               <Box my={3}>
@@ -65,6 +78,8 @@ const SignIn = () => {
                   variant="outlined"
                   type="password"
                   fullWidth
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Box>
               <Box
@@ -75,7 +90,7 @@ const SignIn = () => {
                   borderRadius: "4px",
                 }}
               >
-                <Button fullWidth sx={{ color: "white", fontWeight: "600" }}>
+                <Button fullWidth sx={{ color: "white", fontWeight: "600" }} onClick={handleClick}>
                   Войти
                 </Button>
               </Box>
