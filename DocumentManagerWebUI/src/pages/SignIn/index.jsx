@@ -63,6 +63,7 @@ const SignIn = () => {
                   id="outlined-basic"
                   label="Пароль"
                   variant="outlined"
+                  type="password"
                   fullWidth
                 />
               </Box>
@@ -74,7 +75,7 @@ const SignIn = () => {
                   borderRadius: "4px",
                 }}
               >
-                <Button fullWidth sx={{ color: "white" }}>
+                <Button fullWidth sx={{ color: "white", fontWeight: "600" }}>
                   Войти
                 </Button>
               </Box>
