@@ -6,3 +6,4 @@ riderModule.iml
 .vscode/
 node_modules/
 yarn.lock
+.idea/

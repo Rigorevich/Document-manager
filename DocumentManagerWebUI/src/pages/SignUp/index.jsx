@@ -87,6 +87,7 @@ const Signup = () => {
                   id="outlined-basic"
                   label="Пароль"
                   variant="outlined"
+                  type="password"
                   fullWidth
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -124,7 +125,7 @@ const Signup = () => {
                   borderRadius: "4px",
                 }}
               >
-                <Button fullWidth sx={{ color: "white" }} onClick={handleClick}>
+                <Button fullWidth sx={{ color: "white", fontWeight: "600"  }} onClick={handleClick}>
                   Зарегистрироваться
                 </Button>
               </Box>
