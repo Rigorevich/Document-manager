@@ -1,0 +1,38 @@
+﻿version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  customer-service:
+    depends_on:
+      - "customer_db"
+    container_name: customer-service
+    ports:
+      - "5000:80"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - ConnectionStrings:PostgresDb=server=host.docker.internal;port=1234;database=DocumentManager;username=postgres;password=postgres;Pooling=true;
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - dev
+
+  customer_db:
+    image: postgres:latest
+    container_name: customer_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "1234:5432"
+    restart: always
+    volumes:
+      - customer_data:/var/lib/postgresql/data/
+    networks:
+      - dev
+
+volumes:
+  customer_data:

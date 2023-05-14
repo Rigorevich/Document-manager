@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using DocumentManagerWebAPI.Data;
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("PostgresDb") ?? throw new InvalidOperationException("Connection string 'PostgresDb' not found.");
 builder.Services.AddDbContext<DocumentManagerContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb") ?? throw new InvalidOperationException("Connection string 'PostgresDb' not found.")));
+    options.UseNpgsql(connectionString));
 
 // Add services to the container.
 
