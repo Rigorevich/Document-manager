@@ -5,3 +5,4 @@ riderModule.iml
 /_ReSharper.Caches/
 .vscode/
 node_modules/
+yarn.lock

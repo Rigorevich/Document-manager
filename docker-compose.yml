@@ -1,4 +1,4 @@
-﻿version: '3.4'
+﻿version: "3.4"
 
 networks:
   dev:
@@ -10,7 +10,7 @@ services:
       - "customer_db"
     container_name: customer-service
     ports:
-      - "5000:80"
+      - "5005:80"
     build:
       context: .
       dockerfile: ./Dockerfile
