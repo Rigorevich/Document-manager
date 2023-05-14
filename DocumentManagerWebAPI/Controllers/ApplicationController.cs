@@ -65,7 +65,7 @@ namespace DocumentManagerWebAPI.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> PutApplication(int id, Application application)
         {
-            if (id != application.Id)
+            if (id != application.ApplicationId)
             {
                 return BadRequest();
             }
@@ -103,7 +103,7 @@ namespace DocumentManagerWebAPI.Controllers
           _context.Application.Add(application);
           await _context.SaveChangesAsync();
 
-          return CreatedAtAction("GetApplication", new { id = application.Id }, application);
+          return CreatedAtAction("GetApplication", new { id = application.ApplicationId }, application);
         }
 
         // DELETE: api/Application/5
@@ -131,7 +131,7 @@ namespace DocumentManagerWebAPI.Controllers
 
         private bool ApplicationExists(int id)
         {
-            return (_context.Application?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Application?.Any(e => e.ApplicationId == id)).GetValueOrDefault();
         }
     }
 }

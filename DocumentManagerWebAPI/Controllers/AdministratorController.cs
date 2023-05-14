@@ -65,7 +65,7 @@ namespace DocumentManagerWebAPI.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> PutAdministrator(int id, Administrator administrator)
         {
-            if (id != administrator.Id)
+            if (id != administrator.AdministratorId)
             {
                 return BadRequest();
             }
@@ -103,7 +103,7 @@ namespace DocumentManagerWebAPI.Controllers
           _context.Administrator.Add(administrator);
           await _context.SaveChangesAsync();
 
-          return CreatedAtAction("GetAdministrator", new { id = administrator.Id }, administrator);
+          return CreatedAtAction("GetAdministrator", new { id = administrator.AdministratorId }, administrator);
         }
 
         // DELETE: api/Administrator/5
@@ -131,7 +131,7 @@ namespace DocumentManagerWebAPI.Controllers
 
         private bool AdministratorExists(int id)
         {
-            return (_context.Administrator?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Administrator?.Any(e => e.AdministratorId == id)).GetValueOrDefault();
         }
     }
 }
