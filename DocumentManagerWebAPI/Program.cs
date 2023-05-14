@@ -21,7 +21,6 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.ConfigureAutoMigration();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -33,5 +32,7 @@ app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MigrateDatabase<DocumentManagerContext>();
 
 app.Run();

@@ -18,14 +18,22 @@ public static class ServiceExtensions
         return services;
     }
     
-    public static IApplicationBuilder ConfigureAutoMigration(this IApplicationBuilder app)
+    public static IApplicationBuilder MigrateDatabase<T>(this IApplicationBuilder app) where T : DbContext
     {
         using var scope = app.ApplicationServices
             .GetRequiredService<IServiceScopeFactory>()
             .CreateScope();
         
-        var context = scope.ServiceProvider.GetRequiredService<DocumentManagerContext>();
-        context.Database.Migrate();
+        var context = scope.ServiceProvider.GetRequiredService<T>();
+        try
+        {
+            context.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+            logger.LogError(ex, "An error occurred while migrating the database");
+        }
 
         return app;
     }
