@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      - ConnectionStrings:PostgresDb=server=customer_db;port=1234;database=DocumentManager;username=postgres;password=postgres;Pooling=true;
+      - ConnectionStrings:PostgresDb=server=customer_db;port=5432;database=DocumentManager;username=postgres;password=postgres;Pooling=true;
       - ASPNETCORE_ENVIRONMENT=Development
 
   customer_db:
