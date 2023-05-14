@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DocumentManagerWebAPI.Models;
 
@@ -15,7 +16,7 @@ public class Template : ICreatedAt, IUpdatedAt
     public string Description { get; set; } = null!;
 
     [Required]
-    [DataType("JSONB")]
+    [Column(TypeName = "JSONB")]
     public string Form { get; set; } = null!;
     
     public string? TemplateHtml { get; set; }

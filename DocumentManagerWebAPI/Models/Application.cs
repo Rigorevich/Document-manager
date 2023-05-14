@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DocumentManagerWebAPI.Models;
 
@@ -9,7 +11,7 @@ public class Application : ICreatedAt
     public string? Comment { get; set; }
 
     [Required]
-    [DataType("JSONB")]
+    [Column(TypeName = "JSONB")]
     public string Content { get; set; } = null!;
     
     public DateTime CreatedAt { get; set; }

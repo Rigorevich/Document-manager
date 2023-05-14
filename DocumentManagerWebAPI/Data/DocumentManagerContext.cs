@@ -21,8 +21,8 @@ namespace DocumentManagerWebAPI.Data
             modelBuilder.Entity<Administrator>(b =>
             {
                 b.HasOne<Account>()
-                    .WithMany()
-                    .HasForeignKey(a => a.AccountId);
+                    .WithOne()
+                    .HasForeignKey<Administrator>(a => a.AccountId);
             });
 
             modelBuilder.Entity<Specialty>(b =>
@@ -42,8 +42,8 @@ namespace DocumentManagerWebAPI.Data
             modelBuilder.Entity<Employee>(b =>
             {
                 b.HasOne<Account>()
-                    .WithMany()
-                    .HasForeignKey(s => s.AccountId);
+                    .WithOne()
+                    .HasForeignKey<Employee>(s => s.AccountId);
 
                 b.HasOne<Faculty>()
                     .WithMany()
@@ -53,8 +53,8 @@ namespace DocumentManagerWebAPI.Data
             modelBuilder.Entity<Student>(b =>
             {
                 b.HasOne<Account>()
-                    .WithMany()
-                    .HasForeignKey(s => s.AccountId);
+                    .WithOne()
+                    .HasForeignKey<Student>(s => s.AccountId);
                 
                 b.HasOne<Group>()
                     .WithMany()

@@ -16,6 +16,7 @@ public class Student
 
     [Required]
     [Phone]
+    [MaxLength(16)]
     public string PhoneNumber { get; set; } = null!;
 
     [Required]

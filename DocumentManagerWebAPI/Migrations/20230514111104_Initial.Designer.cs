@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DocumentManagerWebAPI.Migrations
 {
     [DbContext(typeof(DocumentManagerContext))]
-    [Migration("20230513223029_Add relations between entities")]
-    partial class Addrelationsbetweenentities
+    [Migration("20230514111104_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,11 +55,11 @@ namespace DocumentManagerWebAPI.Migrations
 
             modelBuilder.Entity("DocumentManagerWebAPI.Models.Administrator", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AdministratorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AdministratorId"));
 
                     b.Property<int>("AccountId")
                         .HasColumnType("integer");
@@ -71,34 +71,36 @@ namespace DocumentManagerWebAPI.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AdministratorId");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex("AccountId")
+                        .IsUnique();
 
                     b.ToTable("Administrator");
                 });
 
             modelBuilder.Entity("DocumentManagerWebAPI.Models.Application", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ApplicationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ApplicationId"));
 
                     b.Property<string>("Comment")
                         .HasColumnType("text");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("JSONB");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -112,7 +114,7 @@ namespace DocumentManagerWebAPI.Migrations
                     b.Property<int>("TemplateId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("ApplicationId");
 
                     b.HasIndex("StatusId");
 
@@ -144,7 +146,8 @@ namespace DocumentManagerWebAPI.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
 
                     b.Property<string>("Position")
                         .IsRequired()
@@ -163,7 +166,8 @@ namespace DocumentManagerWebAPI.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex("AccountId")
+                        .IsUnique();
 
                     b.HasIndex("FacultyId");
 
@@ -280,7 +284,8 @@ namespace DocumentManagerWebAPI.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
 
                     b.Property<string>("StudentCardId")
                         .IsRequired()
@@ -294,7 +299,8 @@ namespace DocumentManagerWebAPI.Migrations
 
                     b.HasKey("StudentId");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex("AccountId")
+                        .IsUnique();
 
                     b.HasIndex("GroupId");
 
@@ -319,7 +325,7 @@ namespace DocumentManagerWebAPI.Migrations
 
                     b.Property<string>("Form")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("JSONB");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -340,8 +346,8 @@ namespace DocumentManagerWebAPI.Migrations
             modelBuilder.Entity("DocumentManagerWebAPI.Models.Administrator", b =>
                 {
                     b.HasOne("DocumentManagerWebAPI.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountId")
+                        .WithOne()
+                        .HasForeignKey("DocumentManagerWebAPI.Models.Administrator", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -370,8 +376,8 @@ namespace DocumentManagerWebAPI.Migrations
             modelBuilder.Entity("DocumentManagerWebAPI.Models.Employee", b =>
                 {
                     b.HasOne("DocumentManagerWebAPI.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountId")
+                        .WithOne()
+                        .HasForeignKey("DocumentManagerWebAPI.Models.Employee", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -403,8 +409,8 @@ namespace DocumentManagerWebAPI.Migrations
             modelBuilder.Entity("DocumentManagerWebAPI.Models.Student", b =>
                 {
                     b.HasOne("DocumentManagerWebAPI.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountId")
+                        .WithOne()
+                        .HasForeignKey("DocumentManagerWebAPI.Models.Student", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
