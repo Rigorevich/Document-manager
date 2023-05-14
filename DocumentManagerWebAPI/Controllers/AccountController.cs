@@ -100,10 +100,39 @@ namespace DocumentManagerWebAPI.Controllers
           {
               return Problem("Entity set 'DocumentManagerContext.Account'  is null.");
           }
+
+          if (await _context.Account.AnyAsync(a => a.Login == account.Login))
+          {
+              return Conflict($"Login '{account.Login}' is already taken.");
+          }
+          
           _context.Account.Add(account);
           await _context.SaveChangesAsync();
 
           return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
+        }
+        
+        // POST: api/Account/login
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost("login")]
+        public async Task<ActionResult<Account>> Login([FromBody]LoginForm login)
+        {
+            if (_context.Account == null)
+            {
+                return Problem("Entity set 'DocumentManagerContext.Account'  is null.");
+            }
+
+            var account = await _context.Account
+                .Where(a => a.Login == login.Login && a.Password == login.Password)
+                .SingleOrDefaultAsync();
+
+            if (account == null)
+            {
+                return NotFound("Invalid login or password");
+            }
+
+            return Ok(account);
         }
 
         // DELETE: api/Account/5

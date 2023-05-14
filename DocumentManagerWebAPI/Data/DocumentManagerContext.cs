@@ -18,6 +18,12 @@ namespace DocumentManagerWebAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Account>(b =>
+            {
+                b.HasIndex(a => a.Login)
+                    .IsUnique();
+            });
+            
             modelBuilder.Entity<Administrator>(b =>
             {
                 b.HasOne<Account>()
