@@ -1,9 +1,5 @@
 ﻿version: "3.4"
 
-networks:
-  dev:
-    driver: bridge
-
 services:
   customer-service:
     depends_on:
@@ -15,10 +11,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      - ConnectionStrings:PostgresDb=server=host.docker.internal;port=1234;database=DocumentManager;username=postgres;password=postgres;Pooling=true;
+      - ConnectionStrings:PostgresDb=server=customer_db;port=1234;database=DocumentManager;username=postgres;password=postgres;Pooling=true;
       - ASPNETCORE_ENVIRONMENT=Development
-    networks:
-      - dev
 
   customer_db:
     image: postgres:latest
@@ -31,8 +25,6 @@ services:
     restart: always
     volumes:
       - customer_data:/var/lib/postgresql/data/
-    networks:
-      - dev
 
 volumes:
   customer_data:
