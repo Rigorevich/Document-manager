@@ -1,13 +1,11 @@
 import React from "react";
-import {
-  Container,
-  Grid,
-  Button,
-  Box,
-  TextField,
-  Typography,
-} from "@mui/material";
+import Header from "../../components/Header";
 
 export default function Student() {
-  return <>Student</>;
+  return (
+    <>
+      <Header />
+      <div>Student</div>
+    </>
+  );
 }

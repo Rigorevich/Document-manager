@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,11 +13,16 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 
-import { pages, settings } from "../constants/pages";
+import { AccountContext } from "../context/AccountContext";
+import { settings } from "../constants/pages";
+import { useNavigate } from "react-router-dom";
 
-export default function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+export default function Header({ pages }) {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const { account, setAccount } = useContext(AccountContext);
+
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -27,12 +32,20 @@ export default function Header() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (page) => {
     setAnchorElNav(null);
+    navigate(page.path);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
     setAnchorElUser(null);
+    if (setting === "Logout") {
+      localStorage.setItem("user", null);
+      setAccount(null);
+      navigate("/");
+    } else if (setting === "Profile") {
+      navigate("/profile");
+    }
   };
 
   return (
@@ -89,7 +102,7 @@ export default function Header() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.student.map((page) => (
+              {pages.map((page) => (
                 <MenuItem key={page.label} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.label}</Typography>
                 </MenuItem>
@@ -117,10 +130,10 @@ export default function Header() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.student.map((page) => (
+            {pages.map((page) => (
               <Button
                 key={page.label}
-                onClick={handleCloseNavMenu}
+                onClick={() => handleCloseNavMenu(page)}
                 sx={{
                   my: 2,
                   color: "white",
@@ -156,7 +169,10 @@ export default function Header() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(setting)}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

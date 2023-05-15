@@ -1,8 +1,9 @@
 import { baseUrl } from "../constants";
+import { getProfileUrl } from "../utils/profileUrl";
 
-export const fetchSignup = async (body) => {
+export const fetchCreate = async (body, url = `${baseUrl}/Account`) => {
   try {
-    const response = await fetch(`${baseUrl}/Account`, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -11,13 +12,25 @@ export const fetchSignup = async (body) => {
     });
 
     if (response.ok) {
-      const responseData = await response.json();
-      console.log(responseData);
+      return await response.json();
     } else if (response.status === 409) {
-      alert('Аккаунт с таким логином уже зарегистрирован!');
+      alert("Аккаунт с таким логином уже зарегистрирован!");
     }
   } catch (e) {
-    alert("Произошла ошибка на сервере", e);
-    console.log(e)
+    alert("Произошла ошибка на сервере");
   }
+};
+
+export const fetchSignup = async (account, profile) => {
+  const url = baseUrl + getProfileUrl(account.role);
+  const resAccount = await fetchCreate(account);
+  const resProfile = await fetchCreate(
+    {
+      ...profile,
+      accountId: resAccount?.accountId,
+    },
+    url
+  );
+
+  return { ...resAccount, ...resProfile };
 };

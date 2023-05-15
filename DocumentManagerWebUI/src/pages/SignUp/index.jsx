@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Grid,
-  Button,
   Box,
-  TextField,
   Typography,
   RadioGroup,
   FormControlLabel,
@@ -12,24 +10,14 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { roles } from "../../constants/roles";
-import { fetchSignup } from "../../api/fetchSignup";
-import { isValidLogin, isValidPassword } from "../../utils/validation";
+import EmployeeForm from "../../components/EmployeeForm";
+import StudentForm from "../../components/StudentForm";
 
 const Signup = () => {
-  const [login, setLogin] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [selectedRole, setSelectedRole] = React.useState(roles.STUDENT);
+  const [selectedRole, setSelectedRole] = useState(roles.STUDENT);
 
   const handleChange = (event) => {
     setSelectedRole(event.target.value);
-  };
-
-  const handleClick = () => {
-    if (isValidLogin(login)) return;
-    if (isValidPassword(password)) return;
-
-    const body = { login, password, role: selectedRole };
-    fetchSignup(body);
   };
 
   return (
@@ -65,39 +53,18 @@ const Signup = () => {
             >
               <Typography
                 variant="h4"
-                pb={5}
+                pb={1}
                 color="initial"
                 align="center"
                 fontWeight="bold"
               >
                 Регистрация
               </Typography>
-              <Box>
-                <TextField
-                  id="outlined-basic"
-                  label="Логин"
-                  variant="outlined"
-                  fullWidth
-                  value={login}
-                  onChange={(e) => setLogin(e.target.value)}
-                />
-              </Box>
-              <Box my={2}>
-                <TextField
-                  id="outlined-basic"
-                  label="Пароль"
-                  variant="outlined"
-                  type="password"
-                  fullWidth
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Box>
               <Box
                 sx={{
                   display: "flex",
                 }}
-                my={1}
+                my={2}
               >
                 <RadioGroup
                   sx={{ display: "flex", flexDirection: "row" }}
@@ -117,19 +84,12 @@ const Signup = () => {
                   />
                 </RadioGroup>
               </Box>
-              <Box
-                sx={{
-                  background: "#0288d1",
-                  color: "#fff",
-                  p: 0.4,
-                  borderRadius: "4px",
-                }}
-              >
-                <Button fullWidth sx={{ color: "white", fontWeight: "600"  }} onClick={handleClick}>
-                  Зарегистрироваться
-                </Button>
-              </Box>
 
+              {selectedRole === roles.STUDENT ? (
+                <StudentForm />
+              ) : (
+                <EmployeeForm />
+              )}
               <Box
                 sx={{
                   display: "flex",

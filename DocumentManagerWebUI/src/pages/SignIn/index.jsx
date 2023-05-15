@@ -8,18 +8,24 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { checkingAuth } from "../../utils/checkingAuth";
+import { fetchAuth } from "../../api/fetchSignin";
+import { AccountContext } from "../../context/AccountContext";
 
 const SignIn = () => {
-
   const [login, setLogin] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const handleClick = () => {
+  const { setAccount } = useContext(AccountContext);
+
+  const handleClick = async () => {
     if (login.trim() && password.trim()) {
-      const accountData = checkingAuth({login, password});
+      const accountData = await fetchAuth({ login, password });
+      if (accountData) {
+        setAccount(accountData);
+        localStorage.setItem("user", JSON.stringify(accountData));
+      }
     }
-  }
+  };
 
   return (
     <>
@@ -90,7 +96,11 @@ const SignIn = () => {
                   borderRadius: "4px",
                 }}
               >
-                <Button fullWidth sx={{ color: "white", fontWeight: "600" }} onClick={handleClick}>
+                <Button
+                  fullWidth
+                  sx={{ color: "white", fontWeight: "600" }}
+                  onClick={handleClick}
+                >
                   Войти
                 </Button>
               </Box>
