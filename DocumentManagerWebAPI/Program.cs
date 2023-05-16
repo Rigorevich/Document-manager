@@ -10,6 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("PostgresDb") ?
 // Add services to the container.
 builder.Services.AddDbContext<DocumentManagerContext>(options =>
     options.UseNpgsql(connectionString));
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddControllers();
 builder.Services.ConfigureCors();
