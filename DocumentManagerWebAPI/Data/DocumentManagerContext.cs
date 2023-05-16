@@ -94,7 +94,7 @@ namespace DocumentManagerWebAPI.Data
                     createdAt.CreatedAt = DateTime.Now;
                 }
                 
-                if (entry.State == EntityState.Modified && entry.Entity is IUpdatedAt updatedAt)
+                if ((entry.State == EntityState.Modified || entry.State == EntityState.Added) && entry.Entity is IUpdatedAt updatedAt)
                 {
                     updatedAt.UpdatedAt = DateTime.Now;
                 }
