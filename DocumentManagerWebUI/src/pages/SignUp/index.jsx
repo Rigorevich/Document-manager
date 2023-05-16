@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { roles } from "../../constants/roles";
-import EmployeeForm from "../../components/EmployeeForm";
+import EmployeeForm from "../../components/Employee/EmployeeForm";
 import StudentForm from "../../components/StudentForm";
 
 const Signup = () => {

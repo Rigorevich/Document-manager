@@ -1,20 +1,30 @@
 import React, { useContext } from "react";
 import { AccountContext } from "../../context/AccountContext";
-import { getProfileUrl } from "../../utils/profileUrl";
+import { choosingPages } from "../../utils";
+import { Container } from "@mui/material";
 import Header from "../../components/Header";
-import ProfileBlock from "../../components/Profile";
-import useFetch from "../../hooks/useFetch";
+import AccountForm from "../../components/Profile/AccountForm";
+import ProfileForm from "../../components/Profile/ProfileForm";
 
 export default function Profile() {
   const { account, setAccount } = useContext(AccountContext);
 
-  console.log(account);
-
   return (
     <>
-      <Header />
-      Profile
-      {/*{loading ? <div>Загрузка...</div> : <ProfileBlock />}*/}
+      <Header pages={choosingPages(account.role)} />
+      <Container maxWidth="sm" sx={{ paddingTop: "25px" }}>
+        <AccountForm
+          loginState={account.login}
+          passwordState={account.password}
+          accountId={account.accountId}
+          role={account.role}
+        />
+        <ProfileForm
+          account={account}
+          setAccount={setAccount}
+          role={account.role}
+        />
+      </Container>
     </>
   );
 }

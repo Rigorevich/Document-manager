@@ -17,7 +17,7 @@ import { AccountContext } from "../context/AccountContext";
 import { settings } from "../constants/pages";
 import { useNavigate } from "react-router-dom";
 
-export default function Header({ pages }) {
+export default function Header({ pages = [] }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { account, setAccount } = useContext(AccountContext);

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { AccountContext } from "../../context/AccountContext";
+import { adminPages } from "../../constants/pages";
 
 import Header from "../../components/Header";
 import AdminControl from "../../components/AdminControl";
@@ -9,7 +10,7 @@ export default function Admin() {
 
   return (
     <>
-      <Header />
+      <Header pages={adminPages} />
       <AdminControl />
     </>
   );

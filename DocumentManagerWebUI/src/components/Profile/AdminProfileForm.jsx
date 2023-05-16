@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { TextField, Button, Grid, Typography, Container } from "@mui/material";
+import { AccountContext } from "../../context/AccountContext";
+import { putAdmin } from "../../api/fetchProfile";
 
-export default function ProfileBlock({ data }) {
+const AdminProfileForm = () => {
+  const { account, setAccount } = useContext(AccountContext);
+  const { accountId, administratorId, name, surname, phoneNumber } = account;
+
   const [formData, setFormData] = useState({
-    phoneNumber: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    username: "",
+    name,
+    surname,
+    phoneNumber,
   });
 
   const handleChange = (event) => {
@@ -19,10 +23,15 @@ export default function ProfileBlock({ data }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    const body = { ...formData, accountId, administratorId };
+    const isNull = putAdmin(administratorId, body);
+    if (isNull) {
+      setAccount({ ...account, ...body });
+      localStorage.setItem("user", JSON.stringify({ ...account, ...body }));
+    }
   };
   return (
-    <Container maxWidth="sm" sx={{ my: 5 }}>
+    <Container sx={{ my: 5 }}>
       <Typography variant="h4" align="center" gutterBottom>
         Ваш профиль
       </Typography>
@@ -42,7 +51,7 @@ export default function ProfileBlock({ data }) {
               fullWidth
               label="Имя"
               name="firstName"
-              value={formData.firstName}
+              value={formData.name}
               onChange={handleChange}
             />
           </Grid>
@@ -51,26 +60,7 @@ export default function ProfileBlock({ data }) {
               fullWidth
               label="Фамилия"
               name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Пароль"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Логин"
-              name="username"
-              value={formData.username}
+              value={formData.surname}
               onChange={handleChange}
             />
           </Grid>
@@ -83,4 +73,6 @@ export default function ProfileBlock({ data }) {
       </form>
     </Container>
   );
-}
+};
+
+export default AdminProfileForm;

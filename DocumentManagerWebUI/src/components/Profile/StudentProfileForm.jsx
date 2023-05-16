@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { TextField, Button, Grid, Typography, Container } from "@mui/material";
+import { putStudent } from "../../api/fetchProfile";
+import { AccountContext } from "../../context/AccountContext";
 
-export default function ProfileBlock({ data }) {
+const StudentProfileForm = () => {
+  const { account, setAccount } = useContext(AccountContext);
+  const {
+    accountId,
+    studentId,
+    name,
+    surname,
+    phoneNumber,
+    studentCardId,
+    groupId,
+  } = account;
+
   const [formData, setFormData] = useState({
-    phoneNumber: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    username: "",
+    name,
+    surname,
+    phoneNumber,
+    studentCardId,
   });
 
   const handleChange = (event) => {
@@ -19,10 +32,15 @@ export default function ProfileBlock({ data }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    const body = { ...formData, accountId, studentId, groupId };
+    const isNull = putStudent(studentId, body);
+    if (isNull) {
+      setAccount({ ...account, ...body });
+      localStorage.setItem("user", JSON.stringify({ ...account, ...body }));
+    }
   };
   return (
-    <Container maxWidth="sm" sx={{ my: 5 }}>
+    <Container sx={{ my: 5 }}>
       <Typography variant="h4" align="center" gutterBottom>
         Ваш профиль
       </Typography>
@@ -41,8 +59,8 @@ export default function ProfileBlock({ data }) {
             <TextField
               fullWidth
               label="Имя"
-              name="firstName"
-              value={formData.firstName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
             />
           </Grid>
@@ -50,27 +68,17 @@ export default function ProfileBlock({ data }) {
             <TextField
               fullWidth
               label="Фамилия"
-              name="lastName"
-              value={formData.lastName}
+              name="surname"
+              value={formData.surname}
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Пароль"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Логин"
-              name="username"
-              value={formData.username}
+              label="Номер студенческого"
+              name="studentCardId"
+              value={formData.studentCardId}
               onChange={handleChange}
             />
           </Grid>
@@ -83,4 +91,6 @@ export default function ProfileBlock({ data }) {
       </form>
     </Container>
   );
-}
+};
+
+export default StudentProfileForm;

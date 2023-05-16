@@ -8,7 +8,8 @@ import RequireAuth from "./hoc/RequireAuth";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { AccountContext } from "./context/AccountContext";
 import Employee from "./pages/Employee";
-import CreateTemplate from "./pages/Employee/CreateTemplate";
+import TemplateEditor from "./pages/Employee/TemplateEditor";
+import Applications from "./pages/Employee/Applications";
 
 function App() {
   const [account, setAccount] = useState(
@@ -49,10 +50,18 @@ function App() {
             }
           />
           <Route
+            path="/employee/applications"
+            element={
+              <RequireAuth>
+                <Applications />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="/employee/templates/create"
             element={
               <RequireAuth>
-                <CreateTemplate />
+                <TemplateEditor />
               </RequireAuth>
             }
           />
