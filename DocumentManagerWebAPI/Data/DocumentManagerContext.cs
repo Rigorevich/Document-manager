@@ -17,7 +17,167 @@ namespace DocumentManagerWebAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            modelBuilder
+                .Entity<Faculty>()
+                .HasData(
+                    new ()
+                    {
+                        FacultyId = 1,
+                        Name = "ФКП"
+                    },
+                    new ()
+                    {
+                        FacultyId = 2,
+                        Name = "ИЭФ"
+                    },
+                    new ()
+                    {
+                        FacultyId = 3,
+                        Name = "КСИС"
+                    });
 
+            modelBuilder
+                .Entity<Specialty>()
+                .HasData(new ()
+                    {
+                        SpecialtyId = 1,
+                        FacultyId = 1,
+                        Name = "ИПОИТ"
+                    },
+                    new ()
+                    {
+                        SpecialtyId = 2,
+                        FacultyId = 1,
+                        Name = "ИСиТ (в ОПБ)"
+                    },
+                    new ()
+                    {
+                        SpecialtyId = 3,
+                        FacultyId = 1,
+                        Name = "ИСиТ (в БМ)"
+                    },
+                    new ()
+                    {
+                        SpecialtyId = 4,
+                        FacultyId = 2,
+                        Name = "ИСиТ (в Логистике)"
+                    },
+                    new ()
+                    {
+                        SpecialtyId = 5,
+                        FacultyId = 2,
+                        Name = "ИСиТ (в Экономике)"
+                    },
+                    new ()
+                    {
+                        SpecialtyId = 6,
+                        FacultyId = 3,
+                        Name = "ПОИТ"
+                    },
+                    new ()
+                    {
+                        SpecialtyId = 7,
+                        FacultyId = 3,
+                        Name = "ВМСиС"
+                    });
+
+            modelBuilder
+                .Entity<Group>()
+                .HasData(new Group
+                    {
+                        GroupId = 1,
+                        SpecialtyId = 1,
+                        Year = 2021,
+                        GroupNumber = "110901",
+                        Tutor = "Коркин"
+                    },
+                    new Group
+                    {
+                        GroupId = 2,
+                        SpecialtyId = 1,
+                        Year = 2021,
+                        GroupNumber = "110902",
+                        Tutor = "Борисик"
+                    },
+                    new Group
+                    {
+                        GroupId = 3,
+                        SpecialtyId = 2,
+                        Year = 2021,
+                        GroupNumber = "110101",
+                        Tutor = "Кот Борис"
+                    },
+                    new Group
+                    {
+                        GroupId = 4,
+                        SpecialtyId = 3,
+                        Year = 2021,
+                        GroupNumber = "114002",
+                        Tutor = "Пол Уокер"
+                    },
+                    new Group
+                    {
+                        GroupId = 5,
+                        SpecialtyId = 4,
+                        Year = 2021,
+                        GroupNumber = "123456",
+                        Tutor = "Алексей Суховаров"
+                    },
+                    new Group
+                    {
+                        GroupId = 6,
+                        SpecialtyId = 5,
+                        Year = 2021,
+                        GroupNumber = "123455",
+                        Tutor = "Вин Дизель"
+                    },
+                    new Group
+                    {
+                        GroupId = 7,
+                        SpecialtyId = 6,
+                        Year = 2021,
+                        GroupNumber = "112334",
+                        Tutor = "Вин Бензин"
+                    },
+                    new Group
+                    {
+                        GroupId = 8,
+                        SpecialtyId = 7,
+                        Year = 2021,
+                        GroupNumber = "122334",
+                        Tutor = "Вин Газ"
+                    },
+                    new Group
+                    {
+                        GroupId = 9,
+                        SpecialtyId = 6,
+                        Year = 2021,
+                        GroupNumber = "122334",
+                        Tutor = "Вин Код"
+                    });
+
+            modelBuilder
+                .Entity<Account>()
+                .HasData(new Account
+                    {
+                        AccountId = 1,
+                        Login = "admin",
+                        Password = "admin",
+                        Role = "admin"
+                    });
+
+            modelBuilder
+                .Entity<Administrator>()
+                .HasData(new Administrator
+                {
+                    AdministratorId = 1,
+                    AccountId = 1,
+                    Name = "Марина",
+                    Surname = "Борисик",
+                    PhoneNumber = "+375172938824"
+                });
+            
             modelBuilder.Entity<Account>(b =>
             {
                 b.HasIndex(a => a.Login)
