@@ -177,6 +177,24 @@ namespace DocumentManagerWebAPI.Data
                     Surname = "Борисик",
                     PhoneNumber = "+375172938824"
                 });
+
+            modelBuilder
+                .Entity<Status>()
+                .HasData(new Status
+                    {
+                        StatusId = 1,
+                        Name = "В обработке"
+                    },
+                    new Status
+                    {
+                        StatusId = 2,
+                        Name = "Напечатано"
+                    },
+                    new Status
+                    {
+                        StatusId = 3,
+                        Name = "Отклонено"
+                    });
             
             modelBuilder.Entity<Account>(b =>
             {
