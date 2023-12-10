@@ -102,13 +102,15 @@ export default function StudentsControl() {
                     <TableCell>{workbookNumber || "-"}</TableCell>
                     <TableCell>{studentCardId || "-"}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => handleClickDelete(accountId)}
-                      >
-                        Удалить
-                      </Button>
+                      {(!!studentId || !!employeeId) && (
+                        <Button
+                          variant="contained"
+                          color="error"
+                          onClick={() => handleClickDelete(accountId)}
+                        >
+                          Удалить
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 );
