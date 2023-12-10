@@ -22,7 +22,7 @@ export default function Employee() {
   return (
     <>
       <Header pages={employeePages} />
-      <Container maxWidth="xl" sx={{ paddingTop: "30px" }}>
+      <Container maxWidth="xl" sx={{ my: 3 }}>
         <TemplateList templates={data} />
       </Container>
     </>

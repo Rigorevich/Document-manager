@@ -74,6 +74,7 @@ export default function EmployeeForm() {
             variant="outlined"
             fullWidth
             value={component.value}
+            size="small"
             onChange={(e) => handleChange(component.id, e.target.value)}
           />
         </Box>

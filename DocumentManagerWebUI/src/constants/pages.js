@@ -9,15 +9,6 @@ export const employeePages = [
   },
 ];
 
-export const adminPages = [
-  {
-    label: "Профили пользователей в системе",
-    path: "/admin/profiles",
-  },
-  {
-    label: "Контроль панель",
-    path: "/admin/panel",
-  },
-];
+export const adminPages = [];
 
 export const settings = ["Profile", "Logout"];

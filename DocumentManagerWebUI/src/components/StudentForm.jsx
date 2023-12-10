@@ -68,6 +68,7 @@ export default function StudentForm() {
             label={component.label}
             variant="outlined"
             fullWidth
+            size="small"
             value={component.value}
             onChange={(e) => handleChange(component.id, e.target.value)}
           />

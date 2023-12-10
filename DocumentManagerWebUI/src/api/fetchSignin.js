@@ -24,14 +24,14 @@ export const getProfiles = async (url = `${baseUrl}/Account`) => {
 
 export const fetchAuth = async ({ login, password }) => {
   const accounts = await getProfiles();
-  const authAccount = accounts.find(
+  const authAccount = accounts?.find(
     (obj) => obj.login === login && obj.password === password
   );
 
   if (authAccount) {
     const url = baseUrl + getProfileUrl(authAccount?.role);
     const profiles = await getProfiles(url);
-    const authProfile = profiles.find(
+    const authProfile = profiles?.find(
       (obj) => obj.accountId === authAccount?.accountId
     );
 

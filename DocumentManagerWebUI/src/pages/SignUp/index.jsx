@@ -13,7 +13,7 @@ import { roles } from "../../constants/roles";
 import EmployeeForm from "../../components/Employee/EmployeeForm";
 import StudentForm from "../../components/StudentForm";
 
-const Signup = () => {
+const Signup = ({ isAdmin }) => {
   const [selectedRole, setSelectedRole] = useState(roles.STUDENT);
 
   const handleChange = (event) => {
@@ -32,7 +32,7 @@ const Signup = () => {
           <Grid
             container
             sx={{
-              height: "100vh",
+              height: isAdmin ? "95vh" : "100vh",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -90,21 +90,23 @@ const Signup = () => {
               ) : (
                 <EmployeeForm />
               )}
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  mt: 3,
-                }}
-              >
-                <p>
-                  Есть аккаунт?{" "}
-                  <Link to="/signin" style={{ textDecoration: "none" }}>
-                    Войдите
-                  </Link>
-                </p>
-              </Box>
+              {!isAdmin && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    mt: 3,
+                  }}
+                >
+                  <p>
+                    Есть аккаунт?{" "}
+                    <Link to="/signin" style={{ textDecoration: "none" }}>
+                      Войдите
+                    </Link>
+                  </p>
+                </Box>
+              )}
             </Grid>
           </Grid>
         </Container>

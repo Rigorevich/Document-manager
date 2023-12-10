@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Table,
@@ -8,16 +8,41 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
-import useFetch from "../../hooks/useFetch";
-import { baseUrl } from "../../constants";
+import { studentUrl, adminUrl, employeeUrl, accountUrl } from "../../constants";
 
 export default function StudentsControl() {
-  const { data, loading, error } = useFetch(baseUrl + "/Student");
+  const [data, setData] = useState([]);
 
-  if (loading) return <div>Загрузка...</div>;
+  useEffect(() => {
+    try {
+      Promise.all([
+        fetch(studentUrl).then((res) => res.json()),
+        fetch(employeeUrl).then((res) => res.json()),
+        fetch(adminUrl).then((res) => res.json()),
+      ]).then((values) => {
+        console.log(values);
+        setData([...values[0], ...values[1], ...values[2]]);
+      });
+    } catch {
+      alert("Произошла ошибка при получении данных");
+    }
+  }, []);
 
-  if (error) return <div>Произошла ошибка...</div>;
+  const handleClickDelete = (accountId) => {
+    if (window.confirm("Вы уверены, что хотите удалить профиль?")) {
+      try {
+        fetch(accountUrl + "/" + accountId, {
+          method: "DELETE",
+        }).then(() => {
+          setData(data.filter((item) => item.accountId !== accountId));
+        });
+      } catch {
+        alert("Произошла ошибка при удалении данных");
+      }
+    }
+  };
 
   return (
     <>
@@ -34,29 +59,61 @@ export default function StudentsControl() {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>№</TableCell>
               <TableCell>Имя</TableCell>
               <TableCell>Фамилия</TableCell>
+              <TableCell>Должность/Статус</TableCell>
               <TableCell>Номер телефона</TableCell>
-              <TableCell>Факультет</TableCell>
-              <TableCell>Специальность</TableCell>
-              <TableCell>Группа</TableCell>
-              <TableCell>Группа</TableCell>
+              <TableCell>Номер трудовой книжки</TableCell>
               <TableCell>Номер студенческого</TableCell>
+              <TableCell>Удаление профиля</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.surname}</TableCell>
-                <TableCell>{user.phoneNumber}</TableCell>
-                <TableCell>Факультет</TableCell>
-                <TableCell>Специальность</TableCell>
-                <TableCell>Группа</TableCell>
-                <TableCell>Группа</TableCell>
-                <TableCell>Номер студенческого</TableCell>
-              </TableRow>
-            ))}
+            {data?.map(
+              (
+                {
+                  employeeId,
+                  studentId,
+                  adminId,
+                  name,
+                  surname,
+                  phoneNumber,
+                  studentCardId,
+                  workbookNumber,
+                  position,
+                  accountId,
+                },
+                key
+              ) => {
+                return (
+                  <TableRow key={key}>
+                    <TableCell>#{key}</TableCell>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{surname}</TableCell>
+                    <TableCell>
+                      {position
+                        ? `${position}/Работник деканата`
+                        : studentId
+                        ? `Студент`
+                        : `Администратор`}
+                    </TableCell>
+                    <TableCell>{phoneNumber}</TableCell>
+                    <TableCell>{workbookNumber || "-"}</TableCell>
+                    <TableCell>{studentCardId || "-"}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => handleClickDelete(accountId)}
+                      >
+                        Удалить
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              }
+            )}
           </TableBody>
         </Table>
       </TableContainer>
