@@ -60,8 +60,9 @@ export default function EmployeeForm() {
       facultyId: faculty,
     };
     const user = await fetchSignup(account, profile);
-    localStorage.setItem("user", JSON.stringify(user));
-    navigate("/");
+    // localStorage.setItem("user", JSON.stringify(user));
+    alert("Акканут успешно зарегистрирован!");
+    window.location.reload();
   };
 
   return (

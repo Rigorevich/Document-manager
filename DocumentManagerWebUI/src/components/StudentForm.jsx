@@ -56,7 +56,9 @@ export default function StudentForm() {
       groupId: group,
     };
     const user = await fetchSignup(account, profile);
-    localStorage.setItem("user", JSON.stringify(user));
+    // localStorage.setItem("user", JSON.stringify(user));
+    alert("Акканут успешно зарегистрирован!");
+    window.location.reload();
   };
 
   return (

@@ -40,6 +40,7 @@ const ModalApplication = ({
     e.preventDefault();
     handleClose();
     handleClickSent();
+    window.location.reload();
   };
 
   const handleChangeFormData = (e, index) => {

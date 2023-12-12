@@ -15,6 +15,7 @@ const AdminProfileForm = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    console.log(name, value, account);
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -50,7 +51,7 @@ const AdminProfileForm = () => {
             <TextField
               fullWidth
               label="Имя"
-              name="firstName"
+              name="name"
               value={formData.name}
               onChange={handleChange}
             />
@@ -59,7 +60,7 @@ const AdminProfileForm = () => {
             <TextField
               fullWidth
               label="Фамилия"
-              name="lastName"
+              name="surname"
               value={formData.surname}
               onChange={handleChange}
             />

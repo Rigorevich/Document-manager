@@ -53,7 +53,7 @@ export default function StudentsControl() {
         align="start"
         fontWeight="bold"
       >
-        Студенты
+        Аккаунты в системе
       </Typography>
       <TableContainer component={Paper}>
         <Table>

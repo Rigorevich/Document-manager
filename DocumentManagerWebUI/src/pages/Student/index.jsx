@@ -17,11 +17,14 @@ export default function Student() {
   useEffect(() => {
     (async () => {
       const data = await getApplication();
-      setApplications(data);
+      const needData = data.filter(
+        (item) => item.studentId === account.studentId
+      );
+      setApplications(needData);
       setIsLoading(false);
-      console.log(data);
+      console.log(data, account);
     })();
-  }, []);
+  }, [setApplications, setIsLoading]);
 
   const handleClickSent = () => {
     const body = {
